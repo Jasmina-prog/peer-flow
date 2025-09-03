@@ -3,10 +3,11 @@
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { ThemeToggle } from "@/components/theme-toggle"
+import { SignedIn, SignedOut, SignInButton, SignOutButton, SignUpButton } from "@clerk/nextjs"
 
 export function Navbar() {
   return (
-    <nav className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <nav className=" fixed top-0 left-0 right-0 z-50 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 shadow-sm">
       <div className="container mx-auto px-4">
         <div className="flex h-16 items-center justify-between">
           {/* Logo and Brand */}
@@ -37,12 +38,31 @@ export function Navbar() {
           {/* Right side buttons */}
           <div className="flex items-center space-x-4">
             <ThemeToggle />
-            <Button variant="outline" asChild>
-              <Link href="/login">Login</Link>
+            <SignedOut>
+            <SignInButton mode="modal">
+              <Button variant="outline" className="border-green-500 dark:border-green-500 px-7 rounded-none" >
+              Login
             </Button>
-            <Button className="bg-green-500 hover:bg-green-600 text-white" asChild>
-              <Link href="/signup">Signup →</Link>
+            </SignInButton>
+            <SignUpButton mode="modal">
+              <Button variant="outline" className="border-green-500 dark:border-green-500 px-7 rounded-none" >
+              Sign Up
             </Button>
+            </SignUpButton>
+            </SignedOut>
+
+            <SignedIn>
+              <SignOutButton mode="modal">
+                {/* <UserButton/> */}
+                <Button variant="outline" className="border-green-500 dark:border-green-500 px-7 rounded-none" >
+              Sign out
+            </Button>
+              </SignOutButton>
+            </SignedIn>
+
+
+            
+            
           </div>
         </div>
       </div>
