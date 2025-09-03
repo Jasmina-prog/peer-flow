@@ -35,7 +35,7 @@ export default function Home() {
             style={{ animationDelay: "1s" }}
           ></div>
           <div
-            className="absolute bottom-30 -left-30 w-1/5 h-1/4 bg-green-800/20 rounded-full blur-3xl animate-float"
+            className="absolute bottom-30 -left-30 w-1/5 h-1/4 bg-green-700/20 rounded-full blur-3xl animate-float"
             style={{ animationDelay: "2s" }}
           ></div>
           {/* <div
@@ -169,22 +169,17 @@ export default function Home() {
                 <h3 className="text-2xl sm:text-3xl font-bold text-green-400 mb-2">Free</h3>
                 <p className="text-muted-foreground mb-6 sm:mb-8">Perfect for getting started</p>
                 <div className="space-y-3 sm:space-y-4 mb-6 sm:mb-8">
-                  <div className="flex items-center gap-3">
+                  {[
+                    {textName: "Up to 3 matches"},
+                    {textName: "2 hours per day"},
+                    {textName: "Community support"},
+                    {textName: "Display ads"},
+                  ].map((el, index)=>(
+                    <div key={index} className="flex items-center gap-3">
                     <div className="w-2 h-2 bg-green-500 rounded-full flex-shrink-0"></div>
-                    <span className="text-sm sm:text-base text-foreground">Up to 3 matches</span>
+                    <span className="text-sm sm:text-base text-foreground">{el.textName}</span>
                   </div>
-                  <div className="flex items-center gap-3">
-                    <div className="w-2 h-2 bg-green-500 rounded-full flex-shrink-0"></div>
-                    <span className="text-sm sm:text-base text-foreground">2 hours per day</span>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <div className="w-2 h-2 bg-green-500 rounded-full flex-shrink-0"></div>
-                    <span className="text-sm sm:text-base text-foreground">Community support</span>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <div className="w-2 h-2 bg-muted-foreground/50 rounded-full flex-shrink-0"></div>
-                    <span className="text-sm sm:text-base text-muted-foreground">Display ads</span>
-                  </div>
+                  ))}
                 </div>
                 <Button
                   variant="outline"
@@ -208,22 +203,17 @@ export default function Home() {
                 <h3 className="text-2xl sm:text-3xl font-bold text-green-400 mb-2">Pro</h3>
                 <p className="text-muted-foreground mb-6 sm:mb-8">For serious developers</p>
                 <div className="space-y-3 sm:space-y-4 mb-6 sm:mb-8">
-                  <div className="flex items-center gap-3">
+                  {[
+                    {textName: "Unlimited matches"},
+                    {textName: "Unlimited session time"},
+                    {textName: "Priority support"},
+                    {textName: "Ad-free experience"},
+                  ].map((el, index)=>(
+                    <div key={index} className="flex items-center gap-3">
                     <div className="w-2 h-2 bg-green-500 rounded-full flex-shrink-0"></div>
-                    <span className="text-sm sm:text-base text-foreground">Unlimited matches</span>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <div className="w-2 h-2 bg-green-500 rounded-full flex-shrink-0"></div>
-                    <span className="text-sm sm:text-base text-foreground">Unlimited session time</span>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <div className="w-2 h-2 bg-green-500 rounded-full flex-shrink-0"></div>
-                    <span className="text-sm sm:text-base text-foreground">Priority support</span>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <div className="w-2 h-2 bg-green-500 rounded-full flex-shrink-0"></div>
-                    <span className="text-sm sm:text-base text-foreground">Ad-free experience</span>
-                  </div>
+                    <span className="text-sm sm:text-base text-foreground">{el.textName}</span>
+                    </div>
+                  ))}
                 </div>
                 <Button className="w-full bg-green-500 hover:bg-green-600 text-black font-bold animate-pulse-glow">
                   Upgrade to Pro
@@ -267,7 +257,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* FAQ Section - Improved layout */}
+      {/* FAQ  */}
       <section className="py-16 sm:py-24 lg:py-32 bg-background">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12 sm:mb-20">
