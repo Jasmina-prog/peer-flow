@@ -39,12 +39,25 @@ export function Navbar() {
           <div className="flex items-center space-x-4">
             <ThemeToggle />
             <SignedOut>
-            <SignInButton mode="modal">
+            <SignInButton mode="modal" appearance={{
+        elements: {
+          footer: { display: "none" },
+        },
+      }}>
               <Button variant="outline" className="border-green-500 dark:border-green-500 px-7 rounded-none" >
               Login
             </Button>
             </SignInButton>
-            <SignUpButton mode="modal">
+            <SignUpButton mode="modal"
+            appearance={{
+        elements: {
+          card: "bg-gray-900 text-white shadow-lg rounded-2xl",
+          formButtonPrimary: "bg-green-500 hover:bg-green-600 text-white",
+          footer: { display: "none" },
+          // headerTitle: { display: "none" },
+          // headerSubtitle: { display: "none" },
+        },
+      }}>
               <Button variant="outline" className="border-green-500 dark:border-green-500 px-7 rounded-none" >
               Sign Up
             </Button>
