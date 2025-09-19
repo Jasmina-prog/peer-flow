@@ -232,10 +232,11 @@ export default function HomePage() {
                   </div>
 
                   <div className="bg-muted rounded-lg p-8 mb-4 relative overflow-hidden">
-                    <div className="absolute inset-0 bg-gradient-to-br from-green-500/10 to-emerald-500/5"></div>
+                    <img src="/homeimg.png" alt="" />
+                    {/* <div className="absolute inset-0 bg-gradient-to-br from-green-500/10 to-emerald-500/5"></div>
                     <div className="relative flex justify-center items-center">
                       <div className="text-4xl">👨‍💻👩‍💻</div>
-                    </div>
+                    </div> */}
                   </div>
 
                   <div className="flex justify-between items-center text-sm">
