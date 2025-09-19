@@ -26,7 +26,7 @@ export default function Footer() {
             </div>
 
             <div className="flex items-center gap-4 order-1 sm:order-2">
-                <img src="/peerlogo.png" alt="Peer Flow Logo" className="h-8 w-8" />
+                <img src="/Logo.svg" alt="Peer Flow Logo" className="h-8 w-8" />
               <div className="text-center sm:text-left">
                 <div className="text-foreground font-bold text-sm sm:text-base">Peer Flow</div>
                 <div className="text-muted-foreground text-xs sm:text-sm">Collaborative Coding</div>
