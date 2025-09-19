@@ -11,10 +11,10 @@ export function Navbar() {
       <div className="container mx-auto px-4">
         <div className="flex h-16 items-center justify-between">
           {/* Logo and Brand */}
-          <div className="flex items-center space-x-3">
-            <img src="/peerlogo.png" alt="Peer Flow Logo" className="h-8 w-8" />
+          <a href="/" className="flex items-center space-x-3">
+            <img src="/Logo.svg" alt="Peer Flow Logo" className="h-8 w-8" />
             <span className="text-xl font-semibold ">Peer Flow</span>
-          </div>
+          </a>
 
           {/* Navigation Links */}
           <div className="hidden md:flex items-center space-x-8">
