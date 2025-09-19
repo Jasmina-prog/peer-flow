@@ -3,7 +3,7 @@
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { ThemeToggle } from "@/components/theme-toggle"
-import { SignedIn, SignedOut, SignInButton, SignOutButton, SignUpButton } from "@clerk/nextjs"
+import { SignedIn, SignedOut, SignInButton, SignOutButton, SignUpButton, UserButton } from "@clerk/nextjs"
 
 export function Navbar() {
   return (
@@ -39,43 +39,38 @@ export function Navbar() {
           <div className="flex items-center space-x-4">
             <ThemeToggle />
             <SignedOut>
-            <SignInButton mode="modal" appearance={{
-        elements: {
-          footer: { display: "none" },
-        },
-      }}>
-              <Button variant="outline" className="border-green-500 dark:border-green-500 px-7 rounded-none" >
-              Login
-            </Button>
-            </SignInButton>
-            <SignUpButton mode="modal"
-            appearance={{
-        elements: {
-          card: "bg-gray-900 text-white shadow-lg rounded-2xl",
-          formButtonPrimary: "bg-green-500 hover:bg-green-600 text-white",
-          footer: { display: "none" },
-          // headerTitle: { display: "none" },
-          // headerSubtitle: { display: "none" },
-        },
-      }}>
-              <Button variant="outline" className="border-green-500 dark:border-green-500 px-7 rounded-none" >
-              Sign Up
-            </Button>
-            </SignUpButton>
+              <SignInButton mode="modal" appearance={{
+                elements: {
+                  footer: { display: "none" },
+                },
+              }}>
+                <Button variant="outline" className="border-green-500 dark:border-green-500 px-7 rounded-none" >
+                  Login
+                </Button>
+              </SignInButton>
+              <SignUpButton mode="modal"
+                appearance={{
+                  elements: {
+                    card: "bg-gray-900 text-white shadow-lg rounded-2xl",
+                    formButtonPrimary: "bg-green-500 hover:bg-green-600 text-white",
+                    footer: { display: "none" },
+                  },
+                }}>
+                <Button variant="outline" className="border-green-500 dark:border-green-500 px-7 rounded-none" >
+                  Sign Up
+                </Button>
+              </SignUpButton>
             </SignedOut>
 
             <SignedIn>
+                <Link href="/user-profile">Profile</Link>
               <SignOutButton mode="modal">
-                {/* <UserButton/> */}
                 <Button variant="outline" className="border-green-500 dark:border-green-500 px-7 rounded-none" >
-              Sign out
-            </Button>
+                  Sign out
+                </Button>
               </SignOutButton>
             </SignedIn>
 
-
-            
-            
           </div>
         </div>
       </div>
