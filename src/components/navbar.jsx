@@ -24,8 +24,8 @@ export function Navbar() {
             >
               Overview
             </Link>
-            <Link href="/plans" className="text-muted-foreground hover:text-foreground transition-colors">
-              Plans & Prices
+            <Link href="/streakv1" className="text-muted-foreground hover:text-foreground transition-colors">
+              Streak
             </Link>
             <Link href="/features" className="text-muted-foreground hover:text-foreground transition-colors">
               Features
