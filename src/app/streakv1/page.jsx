@@ -95,54 +95,76 @@ export default function StreakVariant1() {
           />
         </div>
 
-        {/* Calendar Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-          {days.map((item) => {
-            const isCompleted = completedDays.has(item.day)
-            return (
-              <div
-                key={item.day}
-                onClick={() => toggleDay(item.day)}
-                className={`
-                  relative p-6 rounded-xl border-2 cursor-pointer transition-all duration-300 hover:scale-105
-                  ${
-                    isCompleted
-                      ? "border-green-500 bg-green-50 dark:bg-green-950/20 shadow-lg shadow-green-500/20"
-                      : "border-border hover:border-green-300 bg-card hover:bg-accent"
-                  }
-                `}
-              >
-                {/* Day Number */}
-                <div className="flex items-center justify-between mb-3">
-                  <div
-                    className={`
-                    w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold
-                    ${isCompleted ? "bg-green-500 text-white" : "bg-muted text-muted-foreground"}
-                  `}
-                  >
-                    {isCompleted ? <Check size={16} /> : item.day}
+        {/* Weeks (3 x 7 days) */}
+        {Array.from({ length: 3 }, (_, wi) => wi).map((weekIndex) => {
+          const start = weekIndex * 7
+          const weekDays = days.slice(start, start + 7)
+          const weekCompleted = weekDays.filter((d) => completedDays.has(d.day)).length
+          return (
+            <div key={`week-${weekIndex}`} className="mb-10">
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-xl font-semibold text-foreground">Week {weekIndex + 1}</h2>
+                <div className="flex items-center gap-3 min-w-[180px]">
+                  <div className="w-40 h-2 bg-muted rounded-full overflow-hidden">
+                    <div
+                      className="h-full bg-gradient-to-r from-green-500 to-emerald-500 rounded-full"
+                      style={{ width: `${(weekCompleted / 7) * 100}%` }}
+                    />
                   </div>
-                  {isCompleted && <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />}
+                  <span className="text-sm text-muted-foreground">{weekCompleted}/7</span>
                 </div>
-
-                {/* Content */}
-                <h3
-                  className={`font-semibold mb-2 ${isCompleted ? "text-green-700 dark:text-green-300" : "text-foreground"}`}
-                >
-                  {item.title}
-                </h3>
-                <p
-                  className={`text-sm ${isCompleted ? "text-green-600 dark:text-green-400" : "text-muted-foreground"}`}
-                >
-                  {item.description}
-                </p>
-
-                {/* Completion Overlay */}
-                {isCompleted && <div className="absolute inset-0 bg-green-500/10 rounded-xl pointer-events-none" />}
               </div>
-            )
-          })}
-        </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                {weekDays.map((item) => {
+                  const isCompleted = completedDays.has(item.day)
+                  return (
+                    <div
+                      key={item.day}
+                      onClick={() => toggleDay(item.day)}
+                      className={`
+                        relative p-6 rounded-xl border-2 cursor-pointer transition-all duration-300 hover:scale-105
+                        ${
+                          isCompleted
+                            ? "border-green-500 bg-green-50 dark:bg-green-950/20 shadow-lg shadow-green-500/20"
+                            : "border-border hover:border-green-300 bg-card hover:bg-accent"
+                        }
+                      `}
+                    >
+                      {/* Day Number */}
+                      <div className="flex items-center justify-between mb-3">
+                        <div
+                          className={`
+                          w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold
+                          ${isCompleted ? "bg-green-500 text-white" : "bg-muted text-muted-foreground"}
+                        `}
+                        >
+                          {isCompleted ? <Check size={16} /> : item.day}
+                        </div>
+                        {isCompleted && <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />}
+                      </div>
+
+                      {/* Content */}
+                      <h3
+                        className={`font-semibold mb-2 ${isCompleted ? "text-green-700 dark:text-green-300" : "text-foreground"}`}
+                      >
+                        {item.title}
+                      </h3>
+                      <p
+                        className={`text-sm ${isCompleted ? "text-green-600 dark:text-green-400" : "text-muted-foreground"}`}
+                      >
+                        {item.description}
+                      </p>
+
+                      {/* Completion Overlay */}
+                      {isCompleted && <div className="absolute inset-0 bg-green-500/10 rounded-xl pointer-events-none" />}
+                    </div>
+                  )
+                })}
+              </div>
+            </div>
+          )
+        })}
 
         {/* Stats */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
