@@ -1,10 +1,11 @@
 "use client"
 
 import { useState } from "react"
-import { Check, Video, Save } from "lucide-react"
+import { Check, Video, Save, ChevronDown } from "lucide-react"
 
 export default function StreakVariant1() {
   const [completedDays, setCompletedDays] = useState(new Set([1, 3, 5]))
+  const [openWeeks, setOpenWeeks] = useState(new Set())
 
   const toggleDay = (day) => {
     const newCompleted = new Set(completedDays)
@@ -15,6 +16,19 @@ export default function StreakVariant1() {
     }
     setCompletedDays(newCompleted)
   }
+
+  const toggleWeek = (weekIndex) => {
+    const next = new Set(openWeeks)
+    if (next.has(weekIndex)) {
+      next.delete(weekIndex)
+    } else {
+      next.add(weekIndex)
+    }
+    setOpenWeeks(next)
+  }
+
+  const expandAllWeeks = () => setOpenWeeks(new Set([0, 1, 2]))
+  const collapseAllWeeks = () => setOpenWeeks(new Set())
 
   const days = [
     {
@@ -61,9 +75,7 @@ export default function StreakVariant1() {
             <div className="flex items-center gap-4">
               <div className="text-right">
                 <p className="text-sm text-muted-foreground">Partner:</p>
-                <p className="text-sm font-medium">
-                  Not matched yet <span className="text-green-500 cursor-pointer hover:underline">Change</span>
-                </p>
+                <p className="text-sm font-medium">Not matched yet</p>
               </div>
               <div className="text-right">
                 <p className="text-sm text-muted-foreground">Progress</p>
@@ -95,15 +107,46 @@ export default function StreakVariant1() {
           />
         </div>
 
+        {/* Header tools */}
+        <div className="mb-6 flex flex-col sm:flex-row items-start sm:items-center gap-3">
+          <div className="flex items-center gap-3">
+            <span className="inline-flex items-center gap-2 rounded-full bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-300 px-3 py-1 text-sm">
+              Overall: {completedDays.size}/21
+            </span>
+            <div className="w-40 h-2 bg-muted rounded-full overflow-hidden">
+              <div
+                className="h-full bg-gradient-to-r from-emerald-500 to-green-500 rounded-full"
+                style={{ width: `${(completedDays.size / 21) * 100}%` }}
+              />
+            </div>
+          </div>
+        </div>
+
         {/* Weeks (3 x 7 days) */}
         {Array.from({ length: 3 }, (_, wi) => wi).map((weekIndex) => {
           const start = weekIndex * 7
           const weekDays = days.slice(start, start + 7)
           const weekCompleted = weekDays.filter((d) => completedDays.has(d.day)).length
           return (
-            <div key={`week-${weekIndex}`} className="mb-10">
-              <div className="flex items-center justify-between mb-4">
-                <h2 className="text-xl font-semibold text-foreground">Week {weekIndex + 1}</h2>
+            <div key={`week-${weekIndex}`} className="mb-8 rounded-2xl border bg-card/60 backdrop-blur-sm border-border p-4 sm:p-5 shadow-sm">
+              <div className="flex items-center justify-between gap-4">
+                <button
+                  type="button"
+                  onClick={() => toggleWeek(weekIndex)}
+                  className="flex items-center gap-2 rounded-xl px-3 py-2 hover:bg-accent transition-colors"
+                  aria-expanded={openWeeks.has(weekIndex)}
+                >
+                  <div className={`flex h-7 w-7 items-center justify-center rounded-full border ${openWeeks.has(weekIndex) ? "bg-emerald-600 text-white border-emerald-600" : "bg-card text-foreground/80 border-border"}`}>
+                    <ChevronDown
+                      size={16}
+                      className={`transition-transform ${openWeeks.has(weekIndex) ? "rotate-0" : "-rotate-90"}`}
+                    />
+                  </div>
+                  <div>
+                    <h2 className="text-lg sm:text-xl font-semibold text-foreground">Week {weekIndex + 1}</h2>
+                    <p className="text-xs text-muted-foreground">Days {start + 1}–{start + weekDays.length}</p>
+                  </div>
+                </button>
                 <div className="flex items-center gap-3 min-w-[180px]">
                   <div className="w-40 h-2 bg-muted rounded-full overflow-hidden">
                     <div
@@ -111,11 +154,14 @@ export default function StreakVariant1() {
                       style={{ width: `${(weekCompleted / 7) * 100}%` }}
                     />
                   </div>
-                  <span className="text-sm text-muted-foreground">{weekCompleted}/7</span>
+                  <span className="text-xs sm:text-sm inline-flex items-center gap-1 rounded-full bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-300 px-2 py-0.5">
+                    {weekCompleted}/7
+                  </span>
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+              {openWeeks.has(weekIndex) && (
+                <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                 {weekDays.map((item) => {
                   const isCompleted = completedDays.has(item.day)
                   return (
@@ -123,11 +169,11 @@ export default function StreakVariant1() {
                       key={item.day}
                       onClick={() => toggleDay(item.day)}
                       className={`
-                        relative p-6 rounded-xl border-2 cursor-pointer transition-all duration-300 hover:scale-105
+                        group relative p-5 rounded-xl border cursor-pointer transition-all duration-300 hover:translate-y-[-2px]
                         ${
                           isCompleted
-                            ? "border-green-500 bg-green-50 dark:bg-green-950/20 shadow-lg shadow-green-500/20"
-                            : "border-border hover:border-green-300 bg-card hover:bg-accent"
+                            ? "border-green-500/70 bg-green-50 dark:bg-green-950/20 shadow-sm shadow-green-500/10"
+                            : "border-border bg-card hover:border-emerald-300 hover:bg-accent"
                         }
                       `}
                     >
@@ -135,33 +181,39 @@ export default function StreakVariant1() {
                       <div className="flex items-center justify-between mb-3">
                         <div
                           className={`
-                          w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold
-                          ${isCompleted ? "bg-green-500 text-white" : "bg-muted text-muted-foreground"}
+                          w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold ring-1 ring-inset
+                          ${isCompleted ? "bg-emerald-600 text-white ring-emerald-600" : "bg-muted text-muted-foreground ring-border"}
                         `}
                         >
                           {isCompleted ? <Check size={16} /> : item.day}
                         </div>
-                        {isCompleted && <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />}
+                        {isCompleted && <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />}
                       </div>
 
                       {/* Content */}
-                      <h3
-                        className={`font-semibold mb-2 ${isCompleted ? "text-green-700 dark:text-green-300" : "text-foreground"}`}
-                      >
-                        {item.title}
-                      </h3>
+                        <div className="mb-1 flex items-baseline justify-between gap-3">
+                          <h3
+                            className={`font-semibold ${isCompleted ? "text-emerald-700 dark:text-emerald-300" : "text-foreground"}`}
+                          >
+                            {item.title}
+                          </h3>
+                          {!isCompleted && (
+                            <span className="text-[10px] text-muted-foreground uppercase tracking-wide">Day {item.day}</span>
+                          )}
+                        </div>
                       <p
-                        className={`text-sm ${isCompleted ? "text-green-600 dark:text-green-400" : "text-muted-foreground"}`}
+                        className={`text-sm ${isCompleted ? "text-emerald-600 dark:text-emerald-400" : "text-muted-foreground"}`}
                       >
                         {item.description}
                       </p>
 
                       {/* Completion Overlay */}
-                      {isCompleted && <div className="absolute inset-0 bg-green-500/10 rounded-xl pointer-events-none" />}
+                      {isCompleted && <div className="absolute inset-0 bg-emerald-500/10 rounded-xl pointer-events-none" />}
                     </div>
                   )
                 })}
-              </div>
+                </div>
+              )}
             </div>
           )
         })}
