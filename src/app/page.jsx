@@ -2,6 +2,8 @@
 
 import { useEffect, useRef } from "react"
 import { Button } from "@/components/ui/button"
+import Link from "next/link"
+import { SignInButton } from "@clerk/nextjs"
 
 export default function HomePage() {
   const observerRef = useRef(null)
@@ -52,13 +54,13 @@ export default function HomePage() {
           <div className="text-center max-w-4xl mx-auto">
             <div className="fade-in-up mb-6 sm:mb-8">
               <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black bg-gradient-to-r from-green-400 via-green-500 to-emerald-400 bg-clip-text text-transparent mb-2 sm:mb-4 md:mb-6 leading-tight">
-                Connect
+                Find Your 
               </h1>
               <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black bg-gradient-to-r from-emerald-400 via-green-500 to-green-400 bg-clip-text text-transparent mb-2 sm:mb-4 md:mb-6 leading-tight">
-                Collaborate
+                Coding
               </h1>
               <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black bg-gradient-to-r from-green-500 via-emerald-400 to-green-300 bg-clip-text text-transparent mb-6 sm:mb-8 md:mb-12 leading-tight">
-                Focus
+                Buddy
               </h1>
             </div>
 
@@ -73,12 +75,14 @@ export default function HomePage() {
               className="fade-in-up flex flex-col sm:flex-row gap-4 justify-center px-4"
               style={{ animationDelay: "0.4s" }}
             >
+              <Link href="/find-peer">
               <Button
                 size="lg"
                 className="bg-green-500 hover:bg-green-600 text-black font-bold px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg animate-pulse-glow w-full sm:w-auto"
-              >
+                >
                 Start Collaborating
               </Button>
+                </Link>
               <Button
                 variant="outline"
                 size="lg"
@@ -233,10 +237,7 @@ export default function HomePage() {
 
                   <div className="bg-muted rounded-lg p-8 mb-4 relative overflow-hidden">
                     <img src="/homeimg.png" alt="" />
-                    {/* <div className="absolute inset-0 bg-gradient-to-br from-green-500/10 to-emerald-500/5"></div>
-                    <div className="relative flex justify-center items-center">
-                      <div className="text-4xl">👨‍💻👩‍💻</div>
-                    </div> */}
+                   
                   </div>
 
                   <div className="flex justify-between items-center text-sm">
@@ -311,12 +312,25 @@ export default function HomePage() {
                     <span className="text-sm sm:text-base text-muted-foreground">Display ads</span>
                   </div>
                 </div>
+                <SignInButton
+                mode="modal"
+                appearance={{
+                  elements: { footer: { display: "none" } },
+                }}
+              >
                 <Button
                   variant="outline"
                   className="w-full border-green-500/50 text-green-400 hover:bg-green-500/10 bg-transparent"
                 >
                   Get Started Free
                 </Button>
+              </SignInButton>
+                {/* <Button
+                  variant="outline"
+                  className="w-full border-green-500/50 text-green-400 hover:bg-green-500/10 bg-transparent"
+                >
+                  Get Started Free
+                </Button> */}
               </div>
             </div>
 
