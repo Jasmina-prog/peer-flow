@@ -364,7 +364,24 @@ export default function HomePage() {
                     <span className="text-sm sm:text-base text-foreground">Ad-free experience</span>
                   </div>
                 </div>
-                <Button className="w-full bg-green-500 hover:bg-green-600 text-black font-bold animate-pulse-glow">
+                <Button
+                  className="w-full bg-green-500 hover:bg-green-600 text-black font-bold animate-pulse-glow"
+                  onClick={async () => {
+                    try {
+                      const res = await fetch("/api/checkout", { method: "POST" });
+                      if (!res.ok) throw new Error("Failed to create checkout session");
+                      const data = await res.json();
+                      if (data?.url) {
+                        window.location.href = data.url;
+                      } else {
+                        throw new Error("No checkout URL returned");
+                      }
+                    } catch (err) {
+                      console.error(err);
+                      alert("Unable to start checkout. Please try again.");
+                    }
+                  }}
+                >
                   Upgrade to Pro
                 </Button>
               </div>

@@ -6,9 +6,16 @@ import { Search, X, CalendarCheck, Clock, Globe } from 'lucide-react';
 // import { useUser } from '@clerk/nextjs';
 
 const MOCK = (lang) => ([
-  { n:'Nilufar', s:lang, l:'Intermediate', score:95, avail:'Mon–Thu evenings', bio:'Frontend-leaning full-stack learner.' },
-  { n:'Jamshid', s:lang, l:'Beginner',    score:91, avail:'Evenings',          bio:'CS freshman building first apps.' },
-  { n:'Aziz',    s:lang, l:'Advanced',    score:89, avail:'Weekends',          bio:'Backend focused; wants to mentor a bit.' },
+  { n:'Nilufar',     s:lang, l:'Intermediate', score:95, avail:'Mon–Thu evenings', bio:'Frontend-leaning full-stack learner.' },
+  { n:'Jamshid',     s:lang, l:'Beginner',    score:91, avail:'Evenings',          bio:'CS freshman building first apps.' },
+  { n:'Aziz',        s:lang, l:'Advanced',    score:89, avail:'Weekends',          bio:'Backend focused; wants to mentor a bit.' },
+  // Added names requested
+  { n:'Shirin',      s:lang, l:'Intermediate', score:88, avail:'Mornings',         bio:'Enjoys pair-debugging and algorithms.' },
+  { n:'Nargiza',     s:lang, l:'Beginner',     score:86, avail:'Weekends',         bio:'Learning fundamentals; very consistent.' },
+  { n:'Mohibakhon',  s:lang, l:'Intermediate', score:90, avail:'Evenings',         bio:'Full-stack path with focus on APIs.' },
+  { n:'Gulsanam',    s:lang, l:'Advanced',     score:92, avail:'Mon–Wed evenings',  bio:'System design enthusiast; patient mentor.' },
+  { n:'Jasmina',     s:lang, l:'Beginner',     score:84, avail:'Mornings',         bio:'Wants accountability for daily practice.' },
+  { n:'Mohira',      s:lang, l:'Intermediate', score:87, avail:'Thu–Fri evenings', bio:'UI-focused; improving testing skills.' },
 ]);
 
 export default function FindPage() {
@@ -25,12 +32,17 @@ export default function FindPage() {
   const results = useMemo(() => {
     let rows = [
       ...MOCK(userLang),
-      // one cross-language example to show the toggle working
-      { n:'Sara', s:'JavaScript', l:'Intermediate', score:84, avail:'Mornings', bio:'JS lover; wants accountability.' },
+      // a few cross-language examples to show the toggle working
+      { n:'Sara',    s:'JavaScript', l:'Intermediate', score:83, avail:'Mornings',        bio:'JS lover; wants accountability.' },
+      { n:'Bek',     s:'Swift',      l:'Beginner',     score:80, avail:'Weekends',        bio:'iOS starter seeking a study buddy.' },
+      { n:'Zuhra',   s:'Java',       l:'Advanced',     score:85, avail:'Evenings',        bio:'Server-side performance tuning fan.' },
     ];
     if (!allowCrossLang) rows = rows.filter(r => r.s === userLang);
     if (level !== 'Any') rows = rows.filter(r => r.l === level);
-    if (availability !== 'Any') rows = rows.filter(r => r.avail.includes(availability.split(' ')[0]));
+    if (availability !== 'Any') {
+      const key = availability.toLowerCase();
+      rows = rows.filter(r => (r.avail || '').toLowerCase().includes(key));
+    }
     return rows;
   }, [allowCrossLang, level, availability, userLang]);
 
@@ -95,7 +107,12 @@ export default function FindPage() {
                 <div className="mt-1 text-xs text-slate-500 dark:text-slate-400">Duo lock for 21 days</div>
               </div>
               <div className="flex items-center gap-3">
-                <button className="rounded-xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-800 dark:text-slate-200 px-3 py-2 hover:bg-slate-50 dark:hover:bg-slate-600" onClick={()=>setSelected(m)}>View profile</button>
+                <a
+                  href={`/profile/${encodeURIComponent(m.n)}?s=${encodeURIComponent(m.s)}&l=${encodeURIComponent(m.l)}&avail=${encodeURIComponent(m.avail)}&bio=${encodeURIComponent(m.bio)}`}
+                  className="rounded-xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-800 dark:text-slate-200 px-3 py-2 hover:bg-slate-50 dark:hover:bg-slate-600"
+                >
+                  View profile
+                </a>
                 <button className="rounded-xl bg-emerald-600 dark:bg-emerald-500 text-white px-3 py-2 hover:bg-emerald-700 dark:hover:bg-emerald-600" onClick={()=>invite(m)}>Send invite</button>
               </div>
             </div>
