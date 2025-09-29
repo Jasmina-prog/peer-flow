@@ -34,7 +34,7 @@ export default function Footer() {
             </div>
 
             <div className="text-muted-foreground text-xs sm:text-sm order-3">
-              © 2024 Peer Flow. All rights reserved.
+              © 2025 Peer Flow. All rights reserved.
             </div>
           </div>
         </div>
